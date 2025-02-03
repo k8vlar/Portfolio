@@ -22,6 +22,13 @@ html {
 h1, h2, .welcome, .demo, .name, .radio-container label {
     font-family: 'RetroComputer', sans-serif;
 }
+
+
+
+
+
+
+/************************************* First section **********************************************/
 .container{
     background-image: url('assets/images/firstComputer.jpg');
     background-size: contain;
@@ -222,6 +229,30 @@ h1, h2, .welcome, .demo, .name, .radio-container label {
 }
 
 /************************************* Second section **********************************************/
+.container, .second-section {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 10px 20px;
+  background-color: black;
+  color: white;
+  border: none;
+  cursor: pointer;
+  z-index: 999;
+  border-radius: 5px;
+}
+
+.back-button:hover {
+  background-color: #555;
+}
+
 .second-section {
     display: none;
     height: 100vh;
@@ -233,19 +264,47 @@ h1, h2, .welcome, .demo, .name, .radio-container label {
     position: relative; 
 }
 
-
+.second-section {
+  position: relative;
+  overflow: hidden;
+}
+.second-section::before,
+.second-section::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 19.1%;
+    background-color: black;
+    transition: transform 2.5s ease-out;
+    z-index: 10;
+}
 
 .second-section::before {
-    content: "";
-    display: block;
-    position: absolute;
-    top: -5px;
     left: 0;
-    width: 100%;
-    height: 50px;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
-    pointer-events: none; /* Empêche l'interaction avec le contenu de la seconde section */
+    transform: translateX(0);
 }
+
+.second-section::after {
+    right: 0;
+    transform: translateX(0);
+}
+
+.second-section.animate::before {
+    transform: translateX(-100%);
+}
+
+.second-section.animate::after {
+    transform: translateX(100%);
+}
+
+.second-section.animate-complete::before,
+.second-section.animate-complete::after {
+    display: none;
+}
+
+
+
 
 .second-section.visible {
     display: block;
@@ -283,10 +342,15 @@ h1, h2, .welcome, .demo, .name, .radio-container label {
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: auto;
     grid-auto-flow: dense;
-    grid-gap: 30px;
+    grid-gap: 15px;
     justify-content: center;
     align-items: center;
 }
+.projects-content-wrapper h2{
+    text-align: center;
+    color: rgb(8, 4, 243);
+}
+
 
 .projects-content-wrapper > *:nth-child(1) {
     grid-column: span 3;
@@ -395,13 +459,14 @@ h1, h2, .welcome, .demo, .name, .radio-container label {
     display: block;
 }
 
-.project p {
+.project p{
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 60%;
+    left: 38%;
     transform: translate(-50%, -50%);
     margin: 0;
-    font-size: 0.5rem; 
+    font-size: 0.4rem;
+    font-weight: bold; 
     text-align: center;
 }
 
@@ -422,8 +487,8 @@ h1, h2, .welcome, .demo, .name, .radio-container label {
 }
 
 .pdf-button img {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     margin-right: 10px;
 }
 
@@ -484,15 +549,158 @@ h1, h2, .welcome, .demo, .name, .radio-container label {
     box-shadow: 0 0 10px rgb(0, 58, 248);
     padding: 5px;
 }
-
+.logoProject{
+  width: 200px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, auto);
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  gap: 5px;
+}
+.logoProject img{
+  height: 50px;
+  width: 50px;
+}
+.second-section-skills-contact{
+ display: flex;
+ flex-direction: row !important;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+.skills{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.contact{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.contact img{
+  height: 70px;
+  width: 70px;
+}
+.skills img{
+  height: 70px;
+  width: 70px;
+}
 
 /************************************* Third section **********************************************/
 .third-section {
-  height: 100vh;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
+  height: 100vh;
   background-image: url('assets/images/sixthComputer.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  position: relative; 
+  z-index: 1000;
 }
+
+
+.third-section.visible {
+  display: block;
+}
+.third-back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 10px 20px;
+  background-color: black;
+  color: white;
+  border: none;
+  cursor: pointer;
+  z-index: 999;
+  border-radius: 5px;
+}
+
+.third-back-button:hover {
+  background-color: #555;
+}
+
+.Transversal-skills{
+  
+  transform:  rotateX(-4deg) skew(1.8deg,1.8deg)
+   /* rotateY(20deg) rotateZ(2.2deg); */
+   perspective(1000px);
+  transform-style: preserve-3d;
+
+
+}
+.perspective-skills{
+  position:absolute;
+  z-index: 3;
+  top: 30%;
+  left: 12%;
+  -webkit-perspective: 1000px;
+  -moz-perspective: 1000px;
+  perspective: 1000px;
+  perspective-origin:left;
+  width: 400px;
+}
+
+.perspective-skills h2{
+  text-align: center;
+}
+
+.transversal-skills-content-wrapper{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  
+  grid-gap: 5px;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+  gap: 5px;
+  height: 200px;
+}
+.transversal-skills-content-wrapper img{
+  height: 60px;
+  
+}
+.skills-contact{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  flex-direction: column;
+  top: 2%;
+  left: 2%;
+
+}
+.skills-content-wrapper{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+/*************************************************CARDS**********************************/
+.card3d {
+  perspective: 1000px;
+}
+
+.card-content {
+  transition: transform 0.3s, filter 0.3s;
+  transform-style: preserve-3d;
+  justify-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+
+
+
+
