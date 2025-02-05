@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function() {
     } else {
         demoElement.style.display = 'none';
         nameElement.classList.add('visible');
-        welcomeElement.innerText = "Bienvenue\nje suis KEVIN VELLARD\nDEVELOPPEUR JUNIOR\nVEUX TU EN SAVOIR PLUS?";
+        welcomeElement.innerText = "Bienvenue\nje suis KEVIN VELLARD\nDEVELOPPEUR FULLSTACK\nVEUX TU EN SAVOIR PLUS?";
         radioContainer.classList.add('visible');
         if (secondSectionVisible) {
             secondSection.classList.add('visible');
@@ -82,21 +82,16 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     //////////////////////////// Radio button functionality section container/////////////////////////////////////////
-    function handleOptionChange(event) {
-        event.preventDefault();
-        if (radioN.checked) {
-            nameElement.classList.add('hidden');
-            setTimeout(function() {
-                nameElement.innerHTML = "<img src='assets/images/gameover.png' alt='Game Over' style='width: 100%; height: auto; cursor: pointer;'>";
-                nameElement.classList.remove('hidden');
-                document.querySelector('.name img').addEventListener('click', function() {
-                    location.reload();
-                });
-            }, 1000);
-        } else if (radioO.checked) {
-            showSecondSection();
-        }
-    }
+
+    // function handleOptionChange(event) {
+    //     event.preventDefault();
+    //     if (radioN.checked) {
+    //         nameElement.classList.add('hidden');
+    //         initSnakeGame();
+    //     } else if (radioO.checked) {
+    //         showSecondSection();
+    //     }
+    // }
 
 
 
@@ -110,6 +105,235 @@ document.addEventListener("DOMContentLoaded", function() {
     radioO.addEventListener('change', handleOptionChange);
     document.querySelector('label[for="option-o"]').addEventListener('click', triggerOptionO);
     
+////////////////////////// SNAKE GAME SECTION/////////////////////////
+function handleOptionChange(event) {
+    event.preventDefault();
+    if (radioN.checked) {
+        nameElement.classList.add('hidden');
+        initSnakeGame();
+    } else if (radioO.checked) {
+        showSecondSection();
+    }
+}
+
+function initSnakeGame() {
+    nameElement.innerHTML = `
+        <main>
+            <div class="score-container">
+            <div class="message">SnakeGame</div>
+                <div class="score">Score: <span>0</span></div>
+            </div>
+            <div class="screen-container">
+                <div class="demo-snake hidden">Snake</div>
+                <canvas width="480" height="460" id="screen"></canvas>
+                <button id="closeGame">X</button>
+            </div>
+            
+        </main>
+    `;
+
+    const canvas = document.querySelector('#screen');
+    const ctx = canvas.getContext('2d');
+    const canvasWidth = 480; // Exemple
+const canvasHeight = 460; // Exemple
+const gridSize = 20;
+
+if (canvasWidth % gridSize !== 0 || canvasHeight % gridSize !== 0) {
+    console.error("Le canvas n'est pas divisible par la taille de la grille !");
+}
+
+    const rows = canvas.height / gridSize;
+    const columns = canvas.width / gridSize;
+
+    let snake;
+    let fruit;
+    let gameLoop;
+
+    function debugPositions() {
+        console.log("Snake Head:", snake.x, snake.y);
+        console.log("Snake Tail:", snake.tail);
+        console.log("Fruit:", fruit.x, fruit.y);
+    }
+    
+    setInterval(debugPositions, 1000); // Affiche les positions toutes les secondes
+    
+
+    class Snake {
+        constructor() {
+            this.x = 3 * gridSize;
+            this.y = 0;
+            this.xSpeed = gridSize;
+            this.ySpeed = 0;
+            this.total = 3;
+            this.tail = [
+                {x: this.x - 2 * gridSize, y: this.y},
+                {x: this.x - gridSize, y: this.y},
+                {x: this.x, y: this.y}
+            ];
+        }
+        
+
+        draw() {
+            ctx.fillStyle = "black";
+            for (let i = 0; i < this.tail.length; i++) {
+                ctx.fillRect(this.tail[i].x, this.tail[i].y, gridSize, gridSize);
+            }
+            ctx.fillRect(this.x, this.y, gridSize, gridSize);
+        }
+
+        update() {
+            for (let i = 0; i < this.tail.length - 1; i++) {
+                this.tail[i] = this.tail[i + 1];
+            }
+
+            this.tail[this.total - 1] = { x: this.x, y: this.y };
+
+            this.x += this.xSpeed;
+            this.y += this.ySpeed;
+
+            this.x = (this.x + canvas.width) % canvas.width;
+            this.y = (this.y + canvas.height) % canvas.height;
+        }
+
+        changeDirection(direction) {
+            switch(direction) {
+                case 'Up':
+                    if (this.ySpeed !== gridSize) {
+                        this.xSpeed = 0;
+                        this.ySpeed = -gridSize;
+                    }
+                    break;
+                case 'Down':
+                    if (this.ySpeed !== -gridSize) {
+                        this.xSpeed = 0;
+                        this.ySpeed = gridSize;
+                    }
+                    break;
+                case 'Left':
+                    if (this.xSpeed !== gridSize) {
+                        this.xSpeed = -gridSize;
+                        this.ySpeed = 0;
+                    }
+                    break;
+                case 'Right':
+                    if (this.xSpeed !== -gridSize) {
+                        this.xSpeed = gridSize;
+                        this.ySpeed = 0;
+                    }
+                    break;
+            }
+        }
+
+        eat(fruit) {
+            if (this.x === fruit.x && this.y === fruit.y) {
+                this.total++;
+                return true;
+            }
+            return false;
+        }
+
+        checkCollision() {
+            for (let i = 0; i < this.tail.length; i++) {
+                if (this.x === this.tail[i].x && this.y === this.tail[i].y) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    class Fruit {
+        constructor() {
+            this.x = 0;
+            this.y = 0;
+            this.pickLocation();
+        }
+
+        pickLocation() {
+            do {
+                this.x = Math.floor(Math.random() * columns) * gridSize;
+                this.y = Math.floor(Math.random() * rows) * gridSize;
+            } while (this.isOnSnake({x: this.x, y: this.y}) || !this.isAlignedWithGrid());
+        }
+        
+        // Vérifie si les coordonnées sont alignées avec la grille
+        isAlignedWithGrid() {
+            return this.x % gridSize === 0 && this.y % gridSize === 0;
+        }
+        
+        
+
+        isOnSnake(position) {
+            return snake.tail.some(segment => 
+                segment.x === position.x && segment.y === position.y
+            ) || (snake.x === position.x && snake.y === position.y);
+        }
+        
+
+        draw() {
+            ctx.fillStyle = "#FF0000";
+            ctx.fillRect(this.x, this.y, gridSize, gridSize)
+        }
+    }
+
+    function startSnakeGame() {
+        snake = new Snake();
+        fruit = new Fruit();
+
+        gameLoop = setInterval(() => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            fruit.draw();
+            snake.update();
+            snake.draw();
+
+            if (snake.eat(fruit)) {
+                fruit.pickLocation();
+            }
+
+            if (snake.checkCollision()) {
+                clearInterval(gameLoop);
+                gameOver();
+            }
+
+            document.querySelector('.score span').innerText = snake.total - 3;
+        }, 100);
+    }
+
+    function gameOver() {
+        showGameOver();
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    window.addEventListener('keydown', (evt) => {
+        if (evt.key === 'Escape') {
+            gameOver();
+        } else {
+            const direction = evt.key.replace('Arrow', '');
+            snake.changeDirection(direction);
+        }
+    });
+
+    document.getElementById('closeGame').addEventListener('click', gameOver);
+
+    nameElement.classList.remove('hidden');
+    startSnakeGame();
+}
+
+function showGameOver() {
+    nameElement.innerHTML = `
+        <img src='assets/images/gameover.png' 
+             alt='Game Over' 
+             style='width: 100%; height: auto; cursor: pointer;'>
+             <p>scores: <span>${document.querySelector('.score span').innerText}</span></p>
+    `;
+    
+    nameElement.classList.remove('hidden');
+    document.querySelector('.name img').addEventListener('click', function() {
+        location.reload();
+    });
+}
+
+
     //////////////////////////// feature secondsection ///////////////////////////
     function showSecondSection() {
         const container = document.querySelector('.container');
