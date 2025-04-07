@@ -53,7 +53,7 @@ h1, h2, .welcome, .demo, .name, .radio-container label {
 
 .content-wrapper {
     position: absolute;
-    top: 30%;
+    top: 39%;
     left: 49%;
     transform: translate(-50%, -50%);
     width: 350px;
@@ -64,7 +64,7 @@ h1, h2, .welcome, .demo, .name, .radio-container label {
 }
 
 .demo, .name {
-    position: absolute;
+    position: relative;
     top: 0;
     left: 0;
     width: 100%;
@@ -227,101 +227,8 @@ h1, h2, .welcome, .demo, .name, .radio-container label {
     color: black;
     line-height: 2.5; 
 }
-/************************************** Snake animation **************************************/
-@import url("https://fonts.googleapis.com/css?family=Press+Start+2P");
-
-main {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    top: -45px;
-    left: 8px;
-    
-    font-size: 1em;
-    font-family: "Press Start 2P";
-}
-
-.score-container {
-  position: absolute; 
-  top: -6px; 
-  left: 28px; 
-  width: 300px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.score {
-  font-size: 1.5em;
-}
-
-.screen-container {
-    position: relative;
-
-}
-
-#closeGame {
-  position: absolute;
-  top: 15px;
-  right: -30px;
-  cursor: pointer;
-}
-
-.demo-snake.hidden {
-    visibility: hidden;
-}
-
-.message {
-  font-size: 1.5em;
-}
-
-.message.hidden {
-    visibility: hidden;
-}
-
-canvas {
-    display: block;
-    border: 1px solid black;
-    height: 320px;
-    width: 320px;
-    margin-top: 5px;
-}
-
-
-
-
-
-
-
 
 /************************************* Second section **********************************************/
-.container, .second-section {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-.back-button {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  padding: 10px 20px;
-  background-color: black;
-  color: white;
-  border: none;
-  cursor: pointer;
-  z-index: 999;
-  border-radius: 5px;
-}
-
-.back-button:hover {
-  background-color: #555;
-}
-
 .second-section {
     display: none;
     height: 100vh;
@@ -373,7 +280,18 @@ canvas {
 }
 
 
-
+/* 
+.second-section::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: -5px;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
+    pointer-events: none;  Empêche l'interaction avec le contenu de la seconde section
+} */
 
 .second-section.visible {
     display: block;
@@ -577,11 +495,6 @@ canvas {
   height: 40px;
 }
 
-.logoName{
-  height: 40px !important;
-  width: 100px !important;
-}
-
 .project-detail .pdf-goback{
   background: none;
 }
@@ -629,7 +542,9 @@ canvas {
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2, auto);
   align-items: center;
+  justify-content: center;
   justify-items: center;
+  gap: 5px;
 }
 .logoProject img{
   height: 50px;
@@ -664,37 +579,18 @@ canvas {
 /************************************* Third section **********************************************/
 .third-section {
   display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
   height: 100vh;
+  width: 100%;
   background-image: url('assets/images/sixthComputer.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  z-index: 1000;
+  position: relative; 
 }
 
 
 .third-section.visible {
   display: block;
-}
-.third-back-button {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  padding: 10px 20px;
-  background-color: black;
-  color: white;
-  border: none;
-  cursor: pointer;
-  z-index: 999;
-  border-radius: 5px;
-}
-
-.third-back-button:hover {
-  background-color: #555;
 }
 
 .Transversal-skills{
@@ -726,8 +622,7 @@ canvas {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  position: relative;
-  z-index: 3;
+  
   grid-gap: 5px;
   justify-content: center;
   align-items: center;
@@ -746,13 +641,10 @@ canvas {
   gap: 10px;
   position: relative;
   flex-direction: column;
-  top: 10vh;
+  top: 2%;
   left: 2%;
-  overflow: hidden;
-  z-index: -1;
-  pointer-events: none;
-}
 
+}
 .skills-content-wrapper{
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -776,228 +668,7 @@ canvas {
 
 }
 
-/* Media query for mobile devices */
-@media (max-width: 767px) and (orientation: portrait) {
-  .container {
-      background-image: url('assets/images/telephone/firstSectionImage\ -\ Copie\ \(2\).jpeg');
-      background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    width: 100%;
-    height: 100vh;
-    position: relative;
-  }
-  .content-wrapper {
-    position: absolute;
-    top: 20%;
-    left: 38%;
-    transform: translate(-50%, -50%);
-    width: 150px;
-    height: auto;
-    text-align: center;
-    justify-items: center;
-    align-items: center;
-}
-
-.demo, .name {
-    position: relative;
-    top: 0;
-    left: 0;
-    width: 100%;
-    transition: opacity 1s ease-in-out;
-}
-.demo {
-    font-size: 0.7rem;
-    text-align: center;
-    color: #5ace5a ;
-    background-color:black;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    margin: auto;
-    
-
-}
-.name{
-    font-size: 0.4rem;
-    color: black;
-    display: flex;
-    flex-direction: column;
 
 
-}
-.welcome {
-  font-family: 'RetroComputer', sans-serif;
-  font-size: 0.8rem;
-  color: black;
-  line-height: 1.9; 
-}
-.radio-container label {
-  font-size: 0.8rem;
-  color: black;
-  margin: 0 10px;
-  cursor: pointer;
-}
-.second-section{
-  background-image: url('assets/images/telephone/secondSectionImage2.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  position: relative; 
-}
-
-.third-section{
-  background-image: url('assets/images/telephone/projectpage.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  position: relative; 
-  height: 100%;
-}
-canvas {
-  display: block;
-  border: 1px solid black;
-  height: 120px;
-  width: 120px;
-  margin-top: 5px;
-}
 
 
-main {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: -45px;
-  left: -1px;
-  
-  font-size: 1em;
-  font-family: "Press Start 2P";
-}
-
-.score-container {
-position: absolute; 
-top: 6px; 
-left: 20px; 
-width: 120px;
-display: flex;
-justify-content: space-between;
-align-items: center;
-}
-#closeGame {
-  top: 200px;
-  right: 65px;
-}
-}
-/*****mobile horizontal*****/
-@media (max-width: 844px) and (orientation: landscape) {
-  .welcome {
-    font-family: 'RetroComputer', sans-serif;
-    font-size: 0.7rem;
-    color: black;
-    line-height: 1.5; 
-    
-  }
-  .name{
-    font-size: 0.4rem;
-    color: black;
-    display: flex;
-    flex-direction: column;
-    top:-40px;
-    left: 80px;
-    width: 150px;
-
-}
-.content-wrapper {
-  top:35%;
-  width: 300px;
-}
-.radio-container label {
-  font-size: 0.7rem;
-  color: black;
-  margin: 0 10px;
-  cursor: pointer;
-}
-canvas {
-  
-  height: 150px !important;
-  width: 150px !important;
-  margin-top: 2px;
-}
-.score-container{
-  position: absolute;
-  top: -6px;
-  left: 74px;
-  width: 150px;
-
-}
-.projects{
-  top: 34%;
-  left: 51%;
-}
-.project-icon{
-  width: 60px !important;
-  height: 60px !important;
-  
-}
-.projects-content-wrapper{
-  width: 250px !important;
-  height: 150px;
-  grid-gap:5px;
-  justify-items: center;
-
-}
-.projects-content-wrapper h2{
-  font-size: 0.6rem;
-}
-.projects-content-wrapper p{
-  font-size: 0.3rem;
-}
-.project p{
-  left: 30px;
-}
-}
-/*****mobile vertical*****/
-@media (max-width: 390px) and (orientation: portrait) {
-  .name{
-    position: absolute;
-    top: 100%;
-  }
-.content-wrapper {
-  top: 40%;
-  left: 44%;
-}
-canvas {
-  
-  height: 180px;
-  width: 180px;
-  margin-top: 2px;
-}
-#closeGame {
-  top: 200px;
-  right: 22px;
-}
-.score-container {
-  position: absolute; 
-  top: -99px; 
-  left: 20px; 
-  width: 120px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  }
-}
-
-/*****ipad horizontal*****/
-@media (max-width: 1024px) and (orientation: landscape) {
-  canvas{
-    height: 280px;
-    width: 280px;
-
-  }
-  .score-container{
-    top:-6px
-  }
-}
